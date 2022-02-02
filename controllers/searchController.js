@@ -49,3 +49,49 @@ exports.allController = async (req, res) => {
     res.send(err.message);
   }
 };
+exports.dashboardController = async (req, res) => {
+  try {
+    const q = req.query.q;
+    const search_cat = req.query.search_cat || "both";
+    const perPage = Number(req.query.perPage) || 5;
+    const sort_order = Number(req.query.sort_order) || -1;
+    const sort_cat = req.query.sort_cat || "date";
+
+    const pageNo = Number(req.query.pageNo) || 1;
+    const offset = Number(req.query.offset) || 0;
+
+    const query = [];
+
+    q
+      ? query.push({
+          $search: {
+            index: "default",
+            text: {
+              query: q,
+              path:
+                search_cat === "both"
+                  ? {
+                      wildcard: "*",
+                    }
+                  : search_cat,
+            },
+          },
+        })
+      : {};
+    if (sort_cat === "date") query.push({ $sort: { publishedAt: sort_order } });
+    else if (sort_cat === "title") query.push({ $sort: { title: sort_order } });
+    else if (sort_cat === "description")
+      query.push({ $sort: { description: sort_order } });
+
+    query.push({ $skip: (pageNo - 1) * perPage + offset });
+
+    query.push({ $limit: perPage });
+    const data = await VideoSchema.aggregate(query);
+
+    // console.log("data", data);
+    res.render("index", { data });
+  } catch (err) {
+    console.log(err.message);
+    res.send(err.message);
+  }
+};

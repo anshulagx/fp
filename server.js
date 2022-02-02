@@ -38,6 +38,9 @@ const swaggerOptions = {
 //setup Swagger for auto documentation
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
+// set the view engine to ejs
+app.set("view engine", "ejs");
+
 //Import Routes
 const apiRoutes = require("./routes/main");
 
@@ -58,14 +61,19 @@ app.use(cors());
 //Express Routes
 app.use("/api", apiRoutes);
 
-app.use("/", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
+// index page
+app.get("/", function (req, res) {
+  res.send("index");
+});
 
 //Schedulers
 if (process.env.NODE_ENV === "production") {
   //Fetch new tweets every 1 minutes.
   cron.schedule("*/1 * * * *", async () => {
     console.log("\nFetching Video Meta Data...");
-    fetchAndSaveData();
+    // fetchAndSaveData();
   });
 }
 

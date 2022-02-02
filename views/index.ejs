@@ -1,0 +1,116 @@
+<html>
+
+<body>
+    <form class="form-horizontal" method="get" action="/api/dashboard">
+        <fieldset>
+
+            <!-- Form Name -->
+            <legend>Fampay Assignment Dashboard</legend>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="Search Query">Search Query</label>
+                <div class="col-md-4">
+                    <input id="Search Query" name="q" type="text" placeholder="" class="form-control input-md">
+
+                </div>
+            </div>
+
+            <!-- Multiple Radios (inline) -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="radios">Fields to search</label>
+                <div class="col-md-4">
+                    <label class="radio-inline" for="radios-0">
+                        <input type="radio" name="search_cat" id="radios-0" value="both" checked="checked">
+                        Title &amp; Description
+                    </label>
+                    <label class="radio-inline" for="radios-1">
+                        <input type="radio" name="search_cat" id="radios-1" value="title">
+                        Title Only
+                    </label>
+                    <label class="radio-inline" for="radios-2">
+                        <input type="radio" name="search_cat" id="radios-2" value="description">
+                        Description Only
+                    </label>
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="textinput">Page No</label>
+                <div class="col-md-4">
+                    <input id="textinput" name="pageNo" type="number" placeholder="1" class="form-control input-md">
+
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="textinput">Offset</label>
+                <div class="col-md-4">
+                    <input id="textinput" name="offset" type="number" placeholder="0" class="form-control input-md">
+
+                </div>
+            </div>
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="textinput">Item per page</label>
+                <div class="col-md-4">
+                    <input id="textinput" name="perPage" type="number" placeholder="5" class="form-control input-md">
+
+                </div>
+            </div>
+
+            <!-- Select Basic -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="selectbasic">Order by</label>
+                <div class="col-md-4">
+                    <select id="selectbasic" name="sort_cat" class="form-control">
+                        <option value="date">Publish Date</option>
+                        <option value="title">Title</option>
+                        <option value="description">Description</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Select Basic -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="selectbasic">Order</label>
+                <div class="col-md-4">
+                    <select id="selectbasic" name="sort_order" class="form-control">
+                        <option value="-1">Descending</option>
+                        <option value="1">Ascending</option>
+                    </select>
+                </div>
+            </div>
+
+
+
+            <!-- Button -->
+            <div class="form-group">
+
+                <div class="col-md-4">
+                    <button id="singlebutton" class="btn btn-primary" onclick="fun">Get Results</button>
+                </div>
+            </div>
+
+        </fieldset>
+    </form>
+    <div>
+        <h2>Server Response</h2>
+        <% data.forEach(function(e) { %>
+            <li>
+                Title: <strong>
+                    <%= e.title %>
+                </strong>
+                <br />
+                Description: <%= e.description %>,
+                    <br />
+                    Publish Time: <%= e.publishedAt %>,
+            </li>
+            <% }); %>
+                </ul>
+    </div>
+</body>
+
+</html>

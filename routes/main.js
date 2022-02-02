@@ -4,6 +4,7 @@ const router = express.Router();
 const {
   searchController,
   allController,
+  dashboardController,
 } = require("../controllers/searchController");
 /**
  * @swagger
@@ -46,5 +47,7 @@ router.get("/all", allController);
  *                 description: A list of videos matching the search query
  */
 router.get("/search", searchController);
+
+router.get("/dashboard", dashboardController);
 
 module.exports = router;

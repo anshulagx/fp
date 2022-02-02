@@ -12,7 +12,7 @@ console.log(NO_OF_API_KEYS, " API keys identified");
 var api_key_counter = 0;
 const fetchSearchResults = async (query, timestamp) => {
   var API_KEY = process.env.GOOGLE_API_KEY.split(",")[api_key_counter];
-  console.log("Trying to fetch with key ", api_key_counter + 1);
+  console.log("Trying to fetch with API key ", api_key_counter + 1);
   const url = `https://youtube.googleapis.com/youtube/v3/search?maxResults=${MAX_RESULTS}&part=snippet&order=date&publishedAfter=${timestamp}&q=${query}&type=video&key=${API_KEY}`;
   console.log("Query URL:", url);
   try {
