@@ -41,6 +41,9 @@ const swaggerDocs = swaggerJsDoc(swaggerOptions);
 //Import Routes
 const apiRoutes = require("./routes/main");
 
+//Import scripts
+const { fetchAndSaveData } = require("./fetch");
+
 //Express options
 app.use(morgan(process.env.NODE_ENV == "production" ? "common" : "dev"));
 app.use(express.json());
@@ -61,7 +64,8 @@ app.use("/", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 if (process.env.NODE_ENV === "production") {
   //Fetch new tweets every 1 minutes.
   cron.schedule("*/1 * * * *", async () => {
-    console.log("Fetching Video Meta Data...");
+    console.log("\nFetching Video Meta Data...");
+    fetchAndSaveData();
   });
 }
 
