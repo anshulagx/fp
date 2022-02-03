@@ -88,7 +88,7 @@ exports.dashboardController = async (req, res) => {
     // throw error if perPage exceed 50
     if (perPage > 50) throw new Error("Max Value of perPage is 50");
 
-    const data = getData(
+    const data = await getData(
       q,
       search_cat,
       perPage,
@@ -121,7 +121,7 @@ exports.apiController = async (req, res) => {
     // throw error if perPage exceed 50
     if (perPage > 50) throw new Error("Max Value of perPage is 50");
 
-    const data = getData(
+    const data = await getData(
       q,
       search_cat,
       perPage,
