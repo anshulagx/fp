@@ -16,8 +16,9 @@ console.log(NO_OF_API_KEYS, " API keys identified");
 var api_key_counter = 0; // The index of API key to use in the current cycle
 
 const fetchSearchResults = async (query, timestamp) => {
-  var API_KEY = process.env.GOOGLE_API_KEY.split(",")[api_key_counter];
+  var API_KEY = process.env.GOOGLE_API_KEY.split(",")[api_key_counter]; // Select one of the multiple specified API key using index
   console.log("Trying to fetch with API key index:", api_key_counter + 1);
+  // build the URL. Ref: https://developers.google.com/youtube/v3/getting-started
   const url = `https://youtube.googleapis.com/youtube/v3/search?maxResults=${MAX_RESULTS}&part=snippet&order=date&publishedAfter=${timestamp}&q=${query}&type=video&key=${API_KEY}`;
   try {
     const response = await fetch(url, {
