@@ -34,6 +34,8 @@ exports.dashboardController = async (req, res) => {
      *    Find the number of documents to skip from the start based on the page number, limit and offset.
      *    Skip the calulated number from start and limit the result based on user set limit
      *
+     * 4. PROJECTION-
+     *    Set the projection fields so that the DB sends only required fields.
      */
 
     //if search string exist then add the search query to the query array
@@ -66,6 +68,11 @@ exports.dashboardController = async (req, res) => {
     // add number of documents per page to the query array
     query.push({ $limit: perPage });
 
+    // add projection fields to the query array
+    query.push({
+      $project: { title: 1, description: 1, publishedAt: 1, _id: 0 },
+    });
+
     // make the DB request using mongodb aggregation pipeline and query array and store the result
     const data = await VideoSchema.aggregate(query);
 
@@ -92,7 +99,10 @@ exports.allController = async (req, res) => {
 
     // Perform a DB find operation.
     // Select all data -> sort them in decending order of publishing date -> Skip some documents from start -> get the next limited number of documents
-    const data = await VideoSchema.find()
+    const data = await VideoSchema.find(
+      {},
+      { title: 1, description: 1, publishedAt: 1, _id: 0 } // projection
+    )
       .sort({ publishedAt: -1 })
       .skip(skip)
       .limit(limit);
@@ -133,6 +143,11 @@ exports.searchController = async (req, res) => {
       : {};
 
     query.push({ $limit: 100 }); // set a default limit of 100
+
+    // add projection fields to the query array
+    query.push({
+      $project: { title: 1, description: 1, publishedAt: 1, _id: 0 },
+    });
 
     // make the DB request using mongodb aggregation pipeline and query array and store the result
     const data = await VideoSchema.aggregate(query);
