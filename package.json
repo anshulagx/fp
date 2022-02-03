@@ -1,5 +1,5 @@
 {
-  "name": "Fampay Youtube",
+  "name": "fampay-youtube",
   "version": "1.0.0",
   "description": "Fampay Youtube API",
   "main": "server.js",
