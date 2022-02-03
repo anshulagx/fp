@@ -28,7 +28,15 @@ Using MongoDB Atlas web interface, create a search index using the following JSO
 ```
 {
   "mappings": {
-    "dynamic": true
+    "dynamic": false,
+    "fields": {
+      "description": {
+        "type": "string"
+      },
+      "title": {
+        "type": "string"
+      }
+    }
   }
 }
 ```
