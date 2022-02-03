@@ -29,7 +29,7 @@ const {
  *             200:
  *                 description: A paginated list of videos
  */
-router.get("/all", allController);
+router.get("/api/all", allController);
 
 /**
  * @swagger
@@ -46,8 +46,8 @@ router.get("/all", allController);
  *             200:
  *                 description: A list of videos matching the search query
  */
-router.get("/search", searchController);
+router.get("/api/search", searchController);
 
-router.get("/dashboard", dashboardController);
+router.get("/", dashboardController);
 
 module.exports = router;

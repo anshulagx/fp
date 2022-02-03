@@ -58,15 +58,10 @@ app.use(cors());
 //   next();
 // });
 
-//Express Routes
-app.use("/api", apiRoutes);
-
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-// index page
-app.get("/", function (req, res) {
-  res.send("index");
-});
+//Express Routes
+app.use("/", apiRoutes);
 
 //Schedulers
 if (process.env.NODE_ENV === "production") {
@@ -78,7 +73,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 //Start Expres Server
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 4002;
 app.listen(PORT, "0.0.0.0", () => {
   console.log("🚀 Server Ready!");
 });
