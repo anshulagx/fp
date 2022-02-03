@@ -48,6 +48,7 @@ router.get("/api/all", allController);
  */
 router.get("/api/search", searchController);
 
+// The root route renders the dashboard UI
 router.get("/", dashboardController);
 
 module.exports = router;
