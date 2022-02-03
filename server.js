@@ -18,7 +18,7 @@ const app = express();
 const DB_URL = process.env.MONGO_URI;
 
 // Config variables
-const ENABLE_FETCH_JOB = process.env.ENABLE_FETCH_JOB || false; //set false to disable API fetch script
+const ENABLE_FETCH_JOB = process.env.ENABLE_FETCH_JOB || true; //set false to disable API fetch script
 
 //Connect mongoose
 mongoose
