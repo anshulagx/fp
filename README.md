@@ -1,5 +1,9 @@
 # YouTube API Assignment
 
+[DEMO Web Dashboard](https://fp-yt.herokuapp.com/)
+
+[DEMO Swagger API](https://fp-yt.herokuapp.com/docs/)
+
 ## Running locally
 
 Clone the repository using: `git clone https://github.com/anshulagx/fp.git`
