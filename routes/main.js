@@ -11,7 +11,7 @@ const {
  * @swagger
  * /api/getAll:
  *     get:
- *         summary: Retrieve all the videos in a paginated response.
+ *         summary: Retrieve all the videos in a paginated response.[made for PART 2 of BASIC REQUIREMENTS]
  *         parameters:
  *             - in: query
  *               name: limit
@@ -35,7 +35,7 @@ router.get("/api/getAll", allController);
  * @swagger
  * /api/search:
  *     get:
- *         summary: Retrieve all the videos whose title or description match the search query.
+ *         summary: Retrieve all the videos whose title or description match the search query.[made for PART 3 of BASIC REQUIREMENTS]
  *         parameters:
  *             - in: query
  *               name: q
@@ -46,6 +46,7 @@ router.get("/api/getAll", allController);
  *               type: string
  *               enum: [both,title,description]
  *               description: The search field
+ *               default: both
  *
  *         responses:
  *             200:
@@ -57,7 +58,7 @@ router.get("/api/search", searchController);
  * @swagger
  * /api:
  *     get:
- *         summary: The genral purpose API route with all options enabled.
+ *         summary: Retrive videos based on a variety of filters and sorting options
  *         parameters:
  *             - in: query
  *               name: q
