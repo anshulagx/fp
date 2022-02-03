@@ -21,7 +21,7 @@ You can specify multiple Google API keys to avoid quota exceeded errors. To do t
 
 `GOOGLE_API_KEY = 'KEY1,KEY2,KEY3,KEY4'`
 
-### Mongo Atlas Search Index
+### Fuzzy Search | Mongo Atlas Search Index Config
 
 Using MongoDB Atlas web interface, create a search index using the following JSON config. If indexes are not created, the search function will not work.
 
