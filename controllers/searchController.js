@@ -1,64 +1,6 @@
 // mongoose schema
 const VideoSchema = require("../models/Video.schema");
 
-// PART 2 of BASIC REQUIREMENTS : A GET API which returns the stored video data in a paginated response sorted in descending order of published datetime.
-exports.allController = async (req, res) => {
-  try {
-    //get the values of the query params if exist or init them to defaults
-    const _pageNo = Number(req.query.pageNo) || 1; // the page number for paginated response. Starts with 1.
-    const _offset = Number(req.query.offset) || 0; // to offset a certain number of docs
-    const limit = Number(req.query.limit) || 5; // no of docs to return per page
-
-    const skip = (_pageNo - 1) * limit + _offset; // calculate the number of document to skip from start
-
-    // throw error if limit exceed 50
-    if (limit > 50) throw new Error("max value of limit is 50");
-
-    // Perform a DB find operation.
-    // Select all data -> sort them in decending order of publishing date -> Skip some documents from start -> get the next limited number of documents
-    const data = await VideoSchema.find()
-      .sort({ publishedAt: -1 })
-      .skip(skip)
-      .limit(limit);
-
-    res.send(data);
-  } catch (err) {
-    console.log(err.message);
-    res.send(err.message);
-  }
-};
-
-// PART 3 of BASIC REQUIREMENTS : A basic search API to search the stored videos using their title and description.
-exports.searchController = async (req, res) => {
-  try {
-    //get the values of the query params if exist or init them to defaults
-    const { q } = req.query; // the search query string
-
-    const query = [];
-
-    query.push({
-      $search: {
-        index: "default",
-        text: {
-          query: q,
-          path: {
-            wildcard: "*",
-          },
-        },
-      },
-    });
-    query.push({ $limit: 100 });
-
-    const data = await VideoSchema.aggregate(query);
-
-    // console.log("data", data);
-    res.send({ title: data[0].title, desc: data[0].description });
-  } catch (err) {
-    console.log(err);
-    res.send("err");
-  }
-};
-
 // this controller handle all the logic required to maintain the dashboard renderings.
 // It combines the logic of allController and searchController to work as a single unified endpoint
 exports.dashboardController = async (req, res) => {
@@ -132,5 +74,72 @@ exports.dashboardController = async (req, res) => {
   } catch (err) {
     console.log(err.message);
     res.send(err.message);
+  }
+};
+
+// PART 2 of BASIC REQUIREMENTS : A GET API which returns the stored video data in a paginated response sorted in descending order of published datetime.
+exports.allController = async (req, res) => {
+  try {
+    //get the values of the query params if exist or init them to defaults
+    const _pageNo = Number(req.query.pageNo) || 1; // the page number for paginated response. Starts with 1.
+    const _offset = Number(req.query.offset) || 0; // to offset a certain number of docs
+    const limit = Number(req.query.limit) || 5; // no of docs to return per page
+
+    const skip = (_pageNo - 1) * limit + _offset; // calculate the number of document to skip from start
+
+    // throw error if limit exceed 50
+    if (limit > 50) throw new Error("max value of limit is 50");
+
+    // Perform a DB find operation.
+    // Select all data -> sort them in decending order of publishing date -> Skip some documents from start -> get the next limited number of documents
+    const data = await VideoSchema.find()
+      .sort({ publishedAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    res.send(data);
+  } catch (err) {
+    console.log(err.message);
+    res.send(err.message);
+  }
+};
+
+// PART 3 of BASIC REQUIREMENTS : A basic search API to search the stored videos using their title and description.
+exports.searchController = async (req, res) => {
+  try {
+    //get the values of the query params if exist or init them to defaults
+    const q = req.query.q; // the search query
+    const search_cat = req.query.search_cat || "both"; // the DB fields to search for
+
+    // the mongo aggregation query builder array
+    const query = [];
+
+    //if search string exist then add the search query to the query array
+    q
+      ? query.push({
+          $search: {
+            index: "default", // using custom search-index created using MONGODB ATLAS SEARCH
+            text: {
+              query: q,
+              path:
+                search_cat === "both"
+                  ? {
+                      wildcard: "*",
+                    }
+                  : search_cat,
+            },
+          },
+        })
+      : {};
+
+    query.push({ $limit: 100 }); // set a default limit of 100
+
+    // make the DB request using mongodb aggregation pipeline and query array and store the result
+    const data = await VideoSchema.aggregate(query);
+
+    res.send(data);
+  } catch (err) {
+    console.log(err);
+    res.send("err");
   }
 };

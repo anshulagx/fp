@@ -8,7 +8,7 @@ const {
 } = require("../controllers/searchController");
 /**
  * @swagger
- * /api/all:
+ * /api/getAll:
  *     get:
  *         summary: Retrieve all the videos in a paginated response.
  *         description: blah
@@ -29,7 +29,7 @@ const {
  *             200:
  *                 description: A paginated list of videos
  */
-router.get("/api/all", allController);
+router.get("/api/getAll", allController);
 
 /**
  * @swagger
@@ -42,13 +42,19 @@ router.get("/api/all", allController);
  *               name: q
  *               type: string
  *               description: The search query
+ *             - in: query
+ *               name: search_cat
+ *               type: string
+ *               enum: [both,title,description]
+ *               description: The search field
+ *
  *         responses:
  *             200:
  *                 description: A list of videos matching the search query
  */
 router.get("/api/search", searchController);
 
-// The root route renders the dashboard UI
+// The root route handles the dashboard UI
 router.get("/", dashboardController);
 
 module.exports = router;
