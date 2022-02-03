@@ -1,5 +1,5 @@
 // import mongoose Video schema
-const VideoSchema = require("./models/Video.schema");
+const VideoSchema = require("../models/Video.schema");
 
 // import fetch to make the API calls
 const fetch = (...args) =>

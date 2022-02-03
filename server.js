@@ -49,7 +49,7 @@ app.set("view engine", "ejs");
 const apiRoutes = require("./routes/main");
 
 //Import scripts
-const { fetchAndSaveData } = require("./fetch");
+const { fetchAndSaveData } = require("./scripts/fetch");
 
 //Express options
 app.use(morgan(process.env.NODE_ENV == "production" ? "common" : "dev"));
